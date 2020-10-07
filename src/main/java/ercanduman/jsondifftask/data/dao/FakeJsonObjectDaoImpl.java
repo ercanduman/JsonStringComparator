@@ -2,6 +2,7 @@ package ercanduman.jsondifftask.data.dao;
 
 import ercanduman.jsondifftask.data.entity.JsonObject;
 import ercanduman.jsondifftask.data.enums.Side;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.List;
  * <p>
  * This object overrides all {@link JsonObjectDao} interface pattern methods and handles invalid Side enum inputs
  */
+@Repository
 public class FakeJsonObjectDaoImpl implements JsonObjectDao {
     private HashMap<String, JsonObject> leftObjects = new HashMap<>();
     private HashMap<String, JsonObject> rightObjects = new HashMap<>();
