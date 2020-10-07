@@ -16,15 +16,19 @@ public class JsonObjectService {
         this.dao = dao;
     }
 
-    void insert(JsonObject object) {
-        dao.insert(object);
+    public void insertLeft(JsonObject object) {
+        dao.insertLeft(object);
     }
 
-    void update(JsonObject object) {
+    public void insertRight(JsonObject object) {
+        dao.insertRight(object);
+    }
+
+    public void update(JsonObject object) {
         dao.update(object);
     }
 
-    List<JsonObject> getObjects(String id) {
+    public List<JsonObject> getObjects(String id) {
         return dao.getObjects(id);
     }
 }

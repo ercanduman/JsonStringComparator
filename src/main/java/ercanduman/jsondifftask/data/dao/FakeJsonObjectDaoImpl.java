@@ -19,11 +19,18 @@ public class FakeJsonObjectDaoImpl implements JsonObjectDao {
     private HashMap<String, JsonObject> rightObjects = new HashMap<>();
 
     @Override
-    public void insert(JsonObject object) {
-        if (isRightObject(object)) rightObjects.put(object.getId(), object);
-        else if (isLeftObject(object)) leftObjects.put(object.getId(), object);
+    public void insertLeft(JsonObject object) {
+        if (isLeftObject(object)) leftObjects.put(object.getId(), object);
         else {
-            throw new IllegalArgumentException("Invalid side found as: " + object.getSide() + ". Side can be only one of " + Side.toStringList());
+            throw new IllegalArgumentException("Invalid side found as: " + object.getSide() + ". Side can be only be " + Side.LEFT + " for /left endpoint.");
+        }
+    }
+
+    @Override
+    public void insertRight(JsonObject object) {
+        if (isRightObject(object)) rightObjects.put(object.getId(), object);
+        else {
+            throw new IllegalArgumentException("Invalid side found as: " + object.getSide() + ". Side can be only be " + Side.RIGHT + " for /right endpoint.");
         }
     }
 

@@ -8,7 +8,8 @@ import java.util.List;
  * Data Access object pattern and all functionalities
  */
 public interface JsonObjectDao {
-    void insert(JsonObject object);
+    void insertLeft(JsonObject object);
+    void insertRight(JsonObject object);
 
     void update(JsonObject object);
 
