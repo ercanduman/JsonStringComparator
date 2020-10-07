@@ -3,10 +3,9 @@ package ercanduman.jsondifftask.api;
 import ercanduman.jsondifftask.Constants;
 import ercanduman.jsondifftask.data.entity.JsonObject;
 import ercanduman.jsondifftask.service.JsonObjectService;
+import ercanduman.jsondifftask.utils.JsonComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping(Constants.BASE_URL)
@@ -18,9 +17,14 @@ public class RestController {
         this.service = service;
     }
 
-    @GetMapping()
+/*    @GetMapping()
     public List<JsonObject> objects(@PathVariable("id") String id) {
         return service.getObjects(id);
+    }*/
+
+    @GetMapping(produces = "application/json")
+    public String result(@PathVariable("id") String id) {
+        return JsonComparator.compare(service.getLeftObject(id), service.getRightObject(id));
     }
 
     @PostMapping(Constants.URL_LEFT)

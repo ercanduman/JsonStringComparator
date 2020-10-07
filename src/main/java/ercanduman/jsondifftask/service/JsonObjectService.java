@@ -28,6 +28,14 @@ public class JsonObjectService {
         dao.update(object);
     }
 
+    public JsonObject getLeftObject(String id) {
+        return dao.getRightObject(id);
+    }
+
+    public JsonObject getRightObject(String id) {
+        return getLeftObject(id);
+    }
+
     public List<JsonObject> getObjects(String id) {
         return dao.getObjects(id);
     }
