@@ -4,8 +4,8 @@ import ercanduman.jsondifftask.Constants;
 import ercanduman.jsondifftask.data.entity.JsonObject;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Compares two json string
@@ -28,18 +28,17 @@ public class JsonComparator {
 
         if (firstObject == null || secondObject == null) return Constants.RESULT_NULL_COMPARISON;
 
-        char[] firstChars = removeAllWhiteSpaces(firstObject.getContent()).toCharArray();
-        char[] secondChars = removeAllWhiteSpaces(secondObject.getContent()).toCharArray();
+        char[] firstChars = firstObject.getContent().toCharArray();
+        char[] secondChars = secondObject.getContent().toCharArray();
 
         String result;
         if (Arrays.equals(firstChars, secondChars)) result = Constants.EXC_RESULT_EQUAL;
         else if (firstChars.length != secondChars.length) result = Constants.EXC_RESULT_DIFF_SIZE;
         else {
-
-            Map<Integer, Character> differences = new LinkedHashMap<>(); // LinkedHashMap maintains the insertion order.
+            List<Difference> differences = new LinkedList<>();
             for (int i = 0; i < firstChars.length; i++) {
                 if (firstChars[i] != secondChars[i]) {
-                    differences.put(i, firstChars[i]);
+                    differences.add(new Difference(i, firstChars[i], secondChars[i]));
                 }
             }
             result = String.format(Constants.EXC_RESULT_DIFF_OFFSET, differences.size(), differences.toString());
@@ -55,5 +54,26 @@ public class JsonComparator {
      */
     private static String removeAllWhiteSpaces(String input) {
         return input.replaceAll("\\s+", "");
+    }
+
+    private static class Difference {
+        private final int offset;
+        private final Character leftChar;
+        private final Character rightChar;
+
+        public Difference(int offset, Character leftChar, Character rightChar) {
+            this.offset = offset;
+            this.leftChar = leftChar;
+            this.rightChar = rightChar;
+        }
+
+        @Override
+        public String toString() {
+            return "{" +
+                    "offset='" + offset + '\'' +
+                    ", left char=" + leftChar +
+                    ", right char=" + rightChar +
+                    '}';
+        }
     }
 }
