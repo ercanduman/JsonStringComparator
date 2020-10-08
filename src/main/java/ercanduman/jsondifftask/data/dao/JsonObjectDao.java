@@ -5,10 +5,11 @@ import ercanduman.jsondifftask.data.entity.JsonObject;
 import java.util.List;
 
 /**
- * Data Access object pattern and all functionalities
+ * Data Access object. Defines the pattern and all functionalities to be used for different DAO implementations.
  */
 public interface JsonObjectDao {
     void insertLeft(JsonObject object);
+
     void insertRight(JsonObject object);
 
     void update(JsonObject object);

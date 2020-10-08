@@ -70,9 +70,9 @@ public class JsonComparator {
         @Override
         public String toString() {
             return "{" +
-                    "offset='" + offset + '\'' +
-                    ", left char=" + leftChar +
-                    ", right char=" + rightChar +
+                    "\"offset\":" + offset +
+                    ",\"left char\":" + leftChar +
+                    ",\"right char\":" + rightChar +
                     '}';
         }
     }

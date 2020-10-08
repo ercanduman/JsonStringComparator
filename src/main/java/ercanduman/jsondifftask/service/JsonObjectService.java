@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class JsonObjectService {
     @Autowired
-    private JsonObjectDao dao;
+    private final JsonObjectDao dao;
 
     public JsonObjectService(JsonObjectDao dao) {
         this.dao = dao;

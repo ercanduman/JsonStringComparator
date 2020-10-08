@@ -9,15 +9,25 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Data access object fake implementation
+ * Fake implementation of Data access object (DAO)
  * <p>
- * This object overrides all {@link JsonObjectDao} interface pattern methods and handles invalid Side enum inputs
+ * This object overrides all {@link JsonObjectDao} pattern methods.
+ * <p>
+ * Uses {@link HashMap} in order to work as in-memory database.
+ * <p>
+ * Works as repository which stores all objects that provided by service
+ * and also check invalid enum inputs
  */
 @Repository
 public class FakeJsonObjectDaoImpl implements JsonObjectDao {
     private HashMap<String, JsonObject> leftObjects = new HashMap<>();
     private HashMap<String, JsonObject> rightObjects = new HashMap<>();
 
+    /**
+     * Inserts object which has LEFT attribute into in-memory database.
+     *
+     * @param object {@link JsonObject} provided by service
+     */
     @Override
     public void insertLeft(JsonObject object) {
         if (isLeftObject(object)) leftObjects.put(object.getId(), object);
@@ -26,6 +36,11 @@ public class FakeJsonObjectDaoImpl implements JsonObjectDao {
         }
     }
 
+    /**
+     * Inserts object which has RIGHT attribute into in-memory database.
+     *
+     * @param object {@link JsonObject} provided by service
+     */
     @Override
     public void insertRight(JsonObject object) {
         if (isRightObject(object)) rightObjects.put(object.getId(), object);
@@ -57,20 +72,46 @@ public class FakeJsonObjectDaoImpl implements JsonObjectDao {
         return jsonObjects;
     }
 
+    /**
+     * Returns {@link JsonObject} to which the specified object is mapped,
+     * or null if this map contains no mapping for the object id.
+     *
+     * @param id object id
+     * @return {@link JsonObject} stored previously with object id
+     */
     @Override
     public JsonObject getLeftObject(String id) {
         return leftObjects.get(id);
     }
 
+    /**
+     * Returns {@link JsonObject} to which the specified object is mapped,
+     * or null if this map contains no mapping for the object id.
+     *
+     * @param id object id
+     * @return {@link JsonObject} stored previously with object id
+     */
     @Override
     public JsonObject getRightObject(String id) {
         return rightObjects.get(id);
     }
 
+    /**
+     * Check whether {@link JsonObject} is has RIGHT attribute
+     *
+     * @param object {@link JsonObject} passed by service
+     * @return boolean
+     */
     private boolean isRightObject(JsonObject object) {
         return Side.RIGHT.equals(object.getSide());
     }
 
+    /**
+     * Check whether {@link JsonObject} is has LEFT attribute
+     *
+     * @param object {@link JsonObject} passed by service
+     * @return boolean
+     */
     private boolean isLeftObject(JsonObject object) {
         return Side.LEFT.equals(object.getSide());
     }
