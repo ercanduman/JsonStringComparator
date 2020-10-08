@@ -47,15 +47,14 @@ public class JsonComparator {
     }
 
     /**
-     * Removes all white spaces from input text
-     *
-     * @param input text to remove spaces from.
-     * @return returns pure string with text
+     * Data class to store different characters
+     * <p>
+     * leftChar will contain non-matched character from left side {@link JsonObject}
+     * rightChar will contain non-matched character from right side {@link JsonObject}
+     * <p>
+     * This object will provide JSON result text with non-matched characters'
+     * offset and left and right characters itself.
      */
-    private static String removeAllWhiteSpaces(String input) {
-        return input.replaceAll("\\s+", "");
-    }
-
     private static class Difference {
         private final int offset;
         private final Character leftChar;
