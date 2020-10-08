@@ -1,8 +1,11 @@
 package ercanduman.jsondifftask.utils;
 
+import ercanduman.jsondifftask.Constants;
 import ercanduman.jsondifftask.data.entity.JsonObject;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Compares two json string
@@ -21,31 +24,25 @@ public class JsonComparator {
      * @return result text
      */
     public static String compare(JsonObject firstObject, JsonObject secondObject) {
-        if (firstObject == null && secondObject == null) return "Both objects are NULL";
+        if (firstObject == null && secondObject == null) return Constants.RESULT_OBJECTS_NULL;
 
-        if (firstObject == null || secondObject == null) return "NULL comparison not allowed";
+        if (firstObject == null || secondObject == null) return Constants.RESULT_NULL_COMPARISON;
 
         char[] firstChars = removeAllWhiteSpaces(firstObject.getContent()).toCharArray();
         char[] secondChars = removeAllWhiteSpaces(secondObject.getContent()).toCharArray();
 
         String result;
-        if (Arrays.equals(firstChars, secondChars)) {
-            result = "Objects are equal - \n" + firstObject.getContent() + "\n" + secondObject.getContent();
-        } else if (firstChars.length != secondChars.length) {
-            result = "Objects have different sizes";
-        } else {
+        if (Arrays.equals(firstChars, secondChars)) result = Constants.EXC_RESULT_EQUAL;
+        else if (firstChars.length != secondChars.length) result = Constants.EXC_RESULT_DIFF_SIZE;
+        else {
 
-            // This array created in order to display differences text
-            char[] differences = new char[firstChars.length];
-            int offset = -1;
+            Map<Integer, Character> differences = new LinkedHashMap<>(); // LinkedHashMap maintains the insertion order.
             for (int i = 0; i < firstChars.length; i++) {
                 if (firstChars[i] != secondChars[i]) {
-                    differences[i] = firstChars[i];
-                    if (offset < 0) offset = i;
+                    differences.put(i, firstChars[i]);
                 }
             }
-            result = "Objects have same size b ut has differences starts at offset: " + offset
-                    + " \nDifference length :" + differences.length;
+            result = String.format(Constants.EXC_RESULT_DIFF_OFFSET, differences.size(), differences.toString());
         }
         return result;
     }
