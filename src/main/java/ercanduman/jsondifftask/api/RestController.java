@@ -1,12 +1,20 @@
 package ercanduman.jsondifftask.api;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ercanduman.jsondifftask.Constants;
 import ercanduman.jsondifftask.data.entity.JsonObject;
 import ercanduman.jsondifftask.data.enums.Side;
 import ercanduman.jsondifftask.service.JsonObjectService;
 import ercanduman.jsondifftask.utils.JsonComparator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParseException;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+
 
 /**
  * {@link RestController} is the place where all HTTP requests are handled.
@@ -30,27 +38,15 @@ public class RestController {
     }
 
     /**
-     * Returns result message by comparing two {@link JsonObject} via {@link JsonComparator}
-     *
-     * @param id parameter value and object id
-     * @return result message
-     */
-    @GetMapping(produces = "application/json")
-    public String result(@PathVariable("id") String id) {
-        return JsonComparator.compare(service.getLeftObject(id), service.getRightObject(id));
-    }
-
-    /**
      * Handles POST requests and stores passed JSON data into {@link JsonObject}
      * by appending enum value of LEFT from {@link Side} enum class.
      *
      * @param id   parameter value and object id
      * @param json JSON data to be stored and used
      */
-    @PostMapping(Constants.URL_LEFT)
+    @PostMapping(value = Constants.URL_LEFT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void insertLeft(@PathVariable("id") String id, @RequestBody String json) {
-        JsonObject object = new JsonObject(id, json, Side.LEFT);
-        service.insertLeft(object);
+        insertJsonObject(id, json, Side.LEFT);
     }
 
     /**
@@ -62,7 +58,52 @@ public class RestController {
      */
     @PostMapping(Constants.URL_RIGHT)
     public void insertRight(@PathVariable("id") String id, @RequestBody String json) {
-        JsonObject object = new JsonObject(id, json, Side.RIGHT);
-        service.insertRight(object);
+        insertJsonObject(id, json, Side.RIGHT);
+    }
+
+    /**
+     * Calls {@link JsonObjectService} and inserts a new {@link JsonObject} into database.
+     *
+     * @param id   ID value of object
+     * @param json json string prvided from client
+     * @param side Set the side of object which can be LEFT or RIGHT from {@link Side} object
+     */
+    private void insertJsonObject(String id, String json, Side side) {
+        try {
+            String jsonData = isJsonValid(json);
+            JsonObject object = new JsonObject(id, jsonData, side);
+            service.insertLeft(object);
+        } catch (JsonParseException | IOException e) {
+            throw new IllegalArgumentException("Invalid JSON found! Error: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Checks whether input text is valid JSON or not.
+     *
+     * @param json input text from client
+     * @return valid JSON string
+     * @throws IOException If not valid JSON then throws exception with message
+     */
+    private String isJsonValid(String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY);
+
+        JsonNode jsonObj = mapper.readTree(mapper.getFactory().createParser(json));
+
+        System.out.println(jsonObj.toString());
+        System.out.println("JSONDATA: " + jsonObj.toString());
+        return jsonObj.toString();
+    }
+
+    /**
+     * Returns result message by comparing two {@link JsonObject} via {@link JsonComparator}
+     *
+     * @param id parameter value and object id
+     * @return result message
+     */
+    @GetMapping(produces = "application/json")
+    public String result(@PathVariable("id") String id) {
+        return JsonComparator.compare(service.getLeftObject(id), service.getRightObject(id));
     }
 }

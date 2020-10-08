@@ -30,9 +30,11 @@ public class JsonObject {
 
     @Override
     public String toString() {
-        return "JsonObject {" +
+        return "JsonObject{" +
                 "id='" + id + '\'' +
-                ", content='" + content + '\'' + '}';
+                ", content='" + content + '\'' +
+                ", side=" + side +
+                '}';
     }
 }
 
