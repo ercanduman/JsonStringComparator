@@ -29,11 +29,11 @@ public class JsonObjectService {
     }
 
     public JsonObject getLeftObject(String id) {
-        return dao.getRightObject(id);
+        return dao.getLeftObject(id);
     }
 
     public JsonObject getRightObject(String id) {
-        return getLeftObject(id);
+        return dao.getRightObject(id);
     }
 
     public List<JsonObject> getObjects(String id) {
