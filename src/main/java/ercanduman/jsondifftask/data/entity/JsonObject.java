@@ -39,5 +39,12 @@ public class JsonObject {
     public void setSide(Side side) {
         this.side = side;
     }
+
+    @Override
+    public String toString() {
+        return "JsonObject {" +
+                "id='" + id + '\'' +
+                ", content='" + content + '\'' + '}';
+    }
 }
 

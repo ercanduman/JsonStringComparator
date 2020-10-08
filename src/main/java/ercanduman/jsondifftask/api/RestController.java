@@ -2,6 +2,7 @@ package ercanduman.jsondifftask.api;
 
 import ercanduman.jsondifftask.Constants;
 import ercanduman.jsondifftask.data.entity.JsonObject;
+import ercanduman.jsondifftask.data.enums.Side;
 import ercanduman.jsondifftask.service.JsonObjectService;
 import ercanduman.jsondifftask.utils.JsonComparator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,14 @@ public class RestController {
     }
 
     @PostMapping(Constants.URL_LEFT)
-    public void insertLeft(@RequestBody JsonObject object) {
+    public void insertLeft(@PathVariable("id") String id, @RequestBody String json) {
+        JsonObject object = new JsonObject(id, json, Side.LEFT);
         service.insertLeft(object);
     }
 
     @PostMapping(Constants.URL_RIGHT)
-    public void insertRight(@RequestBody JsonObject object) {
+    public void insertRight(@PathVariable("id") String id, @RequestBody String json) {
+        JsonObject object = new JsonObject(id, json, Side.RIGHT);
         service.insertRight(object);
     }
 

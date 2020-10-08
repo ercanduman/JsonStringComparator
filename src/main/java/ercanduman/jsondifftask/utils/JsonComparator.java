@@ -12,14 +12,14 @@ public class JsonComparator {
 
     public static String compare(JsonObject firstObject, JsonObject secondObject) {
         if (firstObject == null && secondObject == null) return "Both objects are NULL";
-        
+
         if (firstObject == null || secondObject == null) return "NULL comparison not allowed";
 
         byte[] first = firstObject.getContent().getBytes();
         byte[] second = secondObject.getContent().getBytes();
 
         String result;
-        if (Arrays.equals(first, second)) result = "Objects are equal";
+        if (Arrays.equals(first, second)) result = "Objects are equal - \n" + firstObject.toString();
         else if (first.length != second.length) result = "Objects have different sizes";
         else {
 
