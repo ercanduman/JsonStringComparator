@@ -20,8 +20,8 @@ import java.util.List;
  */
 @Repository
 public class FakeJsonObjectDaoImpl implements JsonObjectDao {
-    private HashMap<String, JsonObject> leftObjects = new HashMap<>();
-    private HashMap<String, JsonObject> rightObjects = new HashMap<>();
+    private final HashMap<String, JsonObject> leftObjects = new HashMap<>();
+    private final HashMap<String, JsonObject> rightObjects = new HashMap<>();
 
     /**
      * Inserts object which has LEFT attribute into in-memory database.
@@ -30,6 +30,7 @@ public class FakeJsonObjectDaoImpl implements JsonObjectDao {
      */
     @Override
     public void insertLeft(JsonObject object) {
+        if (object == null) throw new IllegalArgumentException("Object passed as NULL!");
         if (isLeftObject(object)) leftObjects.put(object.getId(), object);
         else {
             throw new IllegalArgumentException("Invalid side found as: " + object.getSide() + ". Side can be only be " + Side.LEFT + " for /left endpoint.");
@@ -43,6 +44,7 @@ public class FakeJsonObjectDaoImpl implements JsonObjectDao {
      */
     @Override
     public void insertRight(JsonObject object) {
+        if (object == null) throw new IllegalArgumentException("Object passed as NULL!");
         if (isRightObject(object)) rightObjects.put(object.getId(), object);
         else {
             throw new IllegalArgumentException("Invalid side found as: " + object.getSide() + ". Side can be only be " + Side.RIGHT + " for /right endpoint.");

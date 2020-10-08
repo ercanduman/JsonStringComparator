@@ -6,9 +6,9 @@ import ercanduman.jsondifftask.data.enums.Side;
  * Data class to store and retrieve processed data
  */
 public class JsonObject {
-    private String id;
-    private String content;
-    private Side side;
+    private final String id;
+    private final String content;
+    private final Side side;
 
     public JsonObject(String id, String content, Side side) {
         this.id = id;
@@ -20,24 +20,12 @@ public class JsonObject {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getContent() {
         return content;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     public Side getSide() {
         return side;
-    }
-
-    public void setSide(Side side) {
-        this.side = side;
     }
 
     @Override
