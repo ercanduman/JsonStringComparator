@@ -32,16 +32,16 @@ The main purpose of this demo application is to retrieve JSON strings from "/lef
 
 #### JSON Format
 Client requests should be in JSON format. If not, then "415 Unsupported Media Type" exception will be thrown.
-#####  JSON format - Sample JSON Request:
+##### JSON format - Sample JSON Request:
 ```
 {
-  "content": "Sample Json content to compare"
+  "content": "Sample JSON content to compare"
 }
 ```
 
-Application will return JSON responses for each request and generate different json content for each request of Success and Failure requests. 
+Application will return JSON responses for each request and generate different JSON content for each request of Success and Failure requests. 
 
-#####  JSON format - Success Insertion Request:
+##### JSON format - Success Insertion Request:
 ```
 {
   "error": false,
@@ -78,6 +78,85 @@ Application will return JSON responses for each request and generate different j
 }
 ```
 
+
+## Usage
+
+An executable war file created and placed under project source folder /target directory.
+In order to execute module and start web server, run below command in terminal.
+
+`$ java -jar JsonStringComparator.war`
+
+While application is running, typing `CTRL + C` in terminal will halt the server and stop execution of application.
+
+Service will run and can be available in below url:
+http://localhost:8080/v1/diff/1
+
+In first run of application, default JSON response will be as:
+```
+{
+  "error": false,
+  "message": "Both objects are NULL"
+}
+```
+
+## Testing
+As a testing tool Postman is highly recommended to be used for making HTTP requests.
+
+
+#### Testing insertion
+Steps;
+- Go to /target directory
+- Run application via command line: `	$ java -jar JsonStringComparator.war`
+<img src="https://user-images.githubusercontent.com/11629459/95589630-aad86500-0a4d-11eb-9a99-b030a3fb481a.png" title="Figure 5: Swipe to Delete Feature">
+ 
+- Start Postman and create http request with below characteristics
+
+    | Request type | URL |
+    | :------------: | :------------: |
+    |   POST | http://localhost:8080/v1/diff/1/left |
+    
+    | BODY | Media Type |
+    | :------------: | :------------: |
+    | ` {“content": "Sample JSON content to compare”} ` | JSON |
+
+- Send request and check if execution is successful for insertion.
+
+`{
+    "error": false,
+    "message": "Inserted successfully."
+}`
+
+<img src="https://user-images.githubusercontent.com/11629459/95592609-8e3e2c00-0a51-11eb-85db-b03e81d6fab9.png"  title="Json data successfully Inserted">
+
+#### Testing invalid JSON
+
+If invalid JSON data is passed, then application will return a message as shown below.
+<img src="https://user-images.githubusercontent.com/11629459/95593217-1290af00-0a52-11eb-8148-15c98efc9b99.png"  title="Invalid Json data cannot be inserted.">
+
+
+
+#### Testing comparison (Success)
+
+Steps;
+- Go to /target directory
+- Run application via command line: `	$ java -jar JsonStringComparator.war`
+- Start Postman and create POST http request for both /left and /right endpoints.
+
+| Left endpoint | Request body |
+| :------------: | :------------: |
+| http://localhost:8080/v1/diff/1/left | ` {"content": "Sample JSON content to compare 152”} ` |
+
+| Right endpoint | Request body |
+| :------------: | :------------: |
+| http://localhost:8080/v1/diff/1/right | ` {"content": "Sample JSON content to compare 987”} ` |
+
+
+
+
+- And lastly send GET http comparison request as shown below with URL of http://localhost:8080/v1/diff/1/
+<img src="https://user-images.githubusercontent.com/11629459/95596294-deb78880-0a55-11eb-8a84-9eb6ce969e2d.png"  title="Different JSON strings compared and result returned successfully">
+
+
 ### Technologies
 - IntelliJ IDEA 2020.2.3 (Community Edition)
 - Runtime version: 11.0.8+10-b944.34 amd64
@@ -92,8 +171,10 @@ Application will return JSON responses for each request and generate different j
 - Postman v7.34.0 
 - Java Development Kit (JDK) 13.0.2
 
-## Installation
+Happy coding! :+1: :1st_place_medal:
 
+## License
 
+[![License](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://github.com/ercanduman/JsonStringComparator/blob/master/LICENSE.md)
 
-
+JsonStringComparator, Copyright (C) 2020
