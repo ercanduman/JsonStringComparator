@@ -3,14 +3,11 @@ package ercanduman.jsondifftask.service;
 import ercanduman.jsondifftask.data.entity.JsonObject;
 import ercanduman.jsondifftask.data.enums.Side;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 class JsonObjectServiceTest {
     @Autowired
     JsonObjectService service;
@@ -49,7 +46,7 @@ class JsonObjectServiceTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.insertRight(null));
     }
 
-    @Test
+/*    @Test
     void test_getLeftObject_method_should_return_null_when_db_is_empty() {
         JsonObject object = service.getLeftObject("1");
         Assertions.assertNull(object);
@@ -59,7 +56,7 @@ class JsonObjectServiceTest {
     void test_getRightObject_method_should_return_null_when_db_is_empty() {
         JsonObject object = service.getRightObject("1");
         Assertions.assertNull(object);
-    }
+    }*/
 
     @Test
     void test_getLeftObject_method_should_return_object_which_is_inserted() {
