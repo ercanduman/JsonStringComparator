@@ -103,7 +103,7 @@ In first run of application, default JSON response will be as:
 As a testing tool Postman is highly recommended to be used for making HTTP requests.
 
 
-#### Testing insertion
+### Testing insertion
 Steps;
 - Go to /target directory
 - Run application via command line: `	$ java -jar JsonStringComparator.war`
@@ -128,14 +128,14 @@ Steps;
 
 <img src="https://user-images.githubusercontent.com/11629459/95592609-8e3e2c00-0a51-11eb-85db-b03e81d6fab9.png"  title="Json data successfully Inserted">
 
-#### Testing invalid JSON
+### Testing invalid JSON
 
 If invalid JSON data is passed, then application will return a message as shown below.
 <img src="https://user-images.githubusercontent.com/11629459/95593217-1290af00-0a52-11eb-8148-15c98efc9b99.png"  title="Invalid Json data cannot be inserted.">
 
 
 
-#### Testing comparison (Success)
+### Testing comparison (Success)
 
 Steps;
 - Go to /target directory
