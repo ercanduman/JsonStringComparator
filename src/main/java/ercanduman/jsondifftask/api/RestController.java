@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
-
 /**
  * {@link RestController} is the place where all HTTP requests are handled.
  * <p>
@@ -26,7 +25,6 @@ import java.io.IOException;
  * Handles GET requests for Constants.BASE_URL ("/v1/diff/{id}") by
  * returning result messages which can be one of the messages available
  * in {@link Constants} class.
- * <p>
  */
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping(Constants.BASE_URL)
@@ -46,6 +44,7 @@ public class RestController {
      *
      * @param id   parameter value and object id
      * @param json JSON data to be stored and used
+     * @return Json string message
      */
     @PostMapping(value = Constants.URL_LEFT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String insertLeft(@PathVariable("id") String id, @RequestBody String json) {
@@ -67,6 +66,7 @@ public class RestController {
      *
      * @param id   parameter value and object id
      * @param json JSON data to be stored and used
+     * @return Json string message
      */
     @PostMapping(value = Constants.URL_RIGHT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String insertRight(@PathVariable("id") String id, @RequestBody String json) {

@@ -77,3 +77,15 @@ Application will return JSON responses for each request and generate different j
   ]
 }
 ```
+
+### Technologies
+
+This project is developed with:
+    IntelliJ IDEA 
+    Java Development Kit (JDK) 11
+    JUnit 5
+    Apache Maven 3.3.9  
+
+## Installation
+
+
