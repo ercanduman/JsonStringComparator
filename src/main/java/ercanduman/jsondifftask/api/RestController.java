@@ -40,39 +40,38 @@ public class RestController {
     /**
      * Handles POST requests and stores passed JSON data into {@link JsonObject}
      * by appending enum value of LEFT from {@link Side} enum class.
+     * <p>
+     * Calls {@link JsonObjectService} and inserts a new {@link JsonObject} into database.
      *
      * @param id   parameter value and object id
      * @param json JSON data to be stored and used
      */
     @PostMapping(value = Constants.URL_LEFT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void insertLeft(@PathVariable("id") String id, @RequestBody String json) {
-        insertJsonObject(id, json, Side.LEFT);
+        try {
+            String jsonData = isJsonValid(json);
+            JsonObject object = new JsonObject(id, jsonData, Side.LEFT);
+            service.insertLeft(object);
+        } catch (JsonParseException | IOException e) {
+            throw new IllegalArgumentException("Invalid JSON found! Error: " + e.getMessage());
+        }
     }
 
     /**
      * Handles POST requests and stores passed JSON data into {@link JsonObject}
      * by appending enum value of RIGHT from {@link Side} enum class.
+     * <p>
+     * Calls {@link JsonObjectService} and inserts a new {@link JsonObject} into database.
      *
      * @param id   parameter value and object id
      * @param json JSON data to be stored and used
      */
-    @PostMapping(Constants.URL_RIGHT)
+    @PostMapping(value = Constants.URL_RIGHT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void insertRight(@PathVariable("id") String id, @RequestBody String json) {
-        insertJsonObject(id, json, Side.RIGHT);
-    }
-
-    /**
-     * Calls {@link JsonObjectService} and inserts a new {@link JsonObject} into database.
-     *
-     * @param id   ID value of object
-     * @param json json string prvided from client
-     * @param side Set the side of object which can be LEFT or RIGHT from {@link Side} object
-     */
-    private void insertJsonObject(String id, String json, Side side) {
         try {
             String jsonData = isJsonValid(json);
-            JsonObject object = new JsonObject(id, jsonData, side);
-            service.insertLeft(object);
+            JsonObject object = new JsonObject(id, jsonData, Side.RIGHT);
+            service.insertRight(object);
         } catch (JsonParseException | IOException e) {
             throw new IllegalArgumentException("Invalid JSON found! Error: " + e.getMessage());
         }
@@ -91,8 +90,8 @@ public class RestController {
 
         JsonNode jsonObj = mapper.readTree(mapper.getFactory().createParser(json));
 
-        System.out.println(jsonObj.toString());
-        System.out.println("JSONDATA: " + jsonObj.toString());
+        // System.out.println(jsonObj.toString());
+        // System.out.println("JSONDATA: " + jsonObj.toString());
         return jsonObj.toString();
     }
 
