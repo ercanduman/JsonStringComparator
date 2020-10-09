@@ -79,13 +79,21 @@ Application will return JSON responses for each request and generate different j
 ```
 
 ### Technologies
-
-This project is developed with:
-    IntelliJ IDEA 
-    Java Development Kit (JDK) 11
-    JUnit 5
-    Apache Maven 3.3.9  
+- IntelliJ IDEA 2020.2.3 (Community Edition)
+- Runtime version: 11.0.8+10-b944.34 amd64
+- VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
+- Windows 10 10.0
+- GC: ParNew, ConcurrentMarkSweep
+- Memory: 1963M
+- Cores: 8
+- Non-Bundled Plugins: in.1ton.idea.spring.assistant.plugin
+- JUnit 5
+- Apache Maven 3.3.9
+- Postman v7.34.0 
+- Java Development Kit (JDK) 13.0.2
 
 ## Installation
+
+
 
 
