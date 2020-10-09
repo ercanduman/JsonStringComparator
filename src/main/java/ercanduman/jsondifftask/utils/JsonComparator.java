@@ -24,16 +24,19 @@ public class JsonComparator {
      * @return result text
      */
     public static String compare(JsonObject firstObject, JsonObject secondObject) {
-        if (firstObject == null && secondObject == null) return Constants.RESULT_OBJECTS_NULL;
+        if (firstObject == null && secondObject == null)
+            return JsonResponseCreator.response(false, Constants.RESULT_OBJECTS_NULL, null);
 
-        if (firstObject == null || secondObject == null) return Constants.RESULT_NULL_COMPARISON;
+        if (firstObject == null || secondObject == null)
+            return JsonResponseCreator.response(false, Constants.RESULT_NULL_COMPARISON, null);
 
         char[] firstChars = firstObject.getContent().toCharArray();
         char[] secondChars = secondObject.getContent().toCharArray();
 
-        String result;
-        if (Arrays.equals(firstChars, secondChars)) result = Constants.EXC_RESULT_EQUAL;
-        else if (firstChars.length != secondChars.length) result = Constants.EXC_RESULT_DIFF_SIZE;
+        if (Arrays.equals(firstChars, secondChars))
+            return JsonResponseCreator.response(false, Constants.EXC_RESULT_EQUAL, null);
+        else if (firstChars.length != secondChars.length)
+            return JsonResponseCreator.response(false, Constants.EXC_RESULT_DIFF_SIZE, null);
         else {
             List<Difference> differences = new LinkedList<>();
             for (int i = 0; i < firstChars.length; i++) {
@@ -41,9 +44,9 @@ public class JsonComparator {
                     differences.add(new Difference(i, firstChars[i], secondChars[i]));
                 }
             }
-            result = String.format(Constants.EXC_RESULT_DIFF_OFFSET, differences.size(), differences.toString());
+            String message = String.format(Constants.EXC_RESULT_DIFF_OFFSET, differences.size());
+            return JsonResponseCreator.response(false, message, differences.toString());
         }
-        return result;
     }
 
     /**
@@ -55,7 +58,7 @@ public class JsonComparator {
      * This object will provide JSON result text with non-matched characters'
      * offset and left and right characters itself.
      */
-    private static class Difference {
+    static class Difference {
         private final int offset;
         private final Character leftChar;
         private final Character rightChar;

@@ -60,6 +60,13 @@ Application will return JSON responses for each request and generate different j
 ```
 {
   "error": false,
+  "message": "Objects are equal"
+}
+```
+##### JSON format - Sample Success Request with Differences:
+```
+{
+  "error": false,
   "message": "Execution successful.",
   "Differences": [
     {

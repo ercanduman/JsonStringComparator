@@ -8,6 +8,7 @@ import ercanduman.jsondifftask.data.entity.JsonObject;
 import ercanduman.jsondifftask.data.enums.Side;
 import ercanduman.jsondifftask.service.JsonObjectService;
 import ercanduman.jsondifftask.utils.JsonComparator;
+import ercanduman.jsondifftask.utils.JsonResponseCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParseException;
 import org.springframework.http.MediaType;
@@ -46,14 +47,15 @@ public class RestController {
      * @param id   parameter value and object id
      * @param json JSON data to be stored and used
      */
-    @PostMapping(value = Constants.URL_LEFT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void insertLeft(@PathVariable("id") String id, @RequestBody String json) {
+    @PostMapping(value = Constants.URL_LEFT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String insertLeft(@PathVariable("id") String id, @RequestBody String json) {
         try {
             String jsonData = isJsonValid(json);
             JsonObject object = new JsonObject(id, jsonData, Side.LEFT);
             service.insertLeft(object);
+            return JsonResponseCreator.response(false, Constants.EXC_RESPONSE_INSERTED, null);
         } catch (JsonParseException | IOException e) {
-            throw new IllegalArgumentException("Invalid JSON found! Error: " + e.getMessage());
+            return JsonResponseCreator.response(true, "Invalid JSON found! Error: " + e.getMessage(), null);
         }
     }
 
@@ -66,14 +68,15 @@ public class RestController {
      * @param id   parameter value and object id
      * @param json JSON data to be stored and used
      */
-    @PostMapping(value = Constants.URL_RIGHT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void insertRight(@PathVariable("id") String id, @RequestBody String json) {
+    @PostMapping(value = Constants.URL_RIGHT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String insertRight(@PathVariable("id") String id, @RequestBody String json) {
         try {
             String jsonData = isJsonValid(json);
             JsonObject object = new JsonObject(id, jsonData, Side.RIGHT);
             service.insertRight(object);
+            return JsonResponseCreator.response(false, Constants.EXC_RESPONSE_INSERTED, null);
         } catch (JsonParseException | IOException e) {
-            throw new IllegalArgumentException("Invalid JSON found! Error: " + e.getMessage());
+            return JsonResponseCreator.response(true, "Invalid JSON found! Error: " + e.getMessage(), null);
         }
     }
 
