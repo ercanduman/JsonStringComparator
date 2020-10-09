@@ -3,7 +3,7 @@ package ercanduman.jsondifftask.data.entity;
 import ercanduman.jsondifftask.data.enums.Side;
 
 /**
- * Data class to store and retrieve processed data
+ * Data class to store processed data
  */
 public class JsonObject {
     private final String id;

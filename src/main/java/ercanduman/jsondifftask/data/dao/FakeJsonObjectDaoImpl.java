@@ -16,7 +16,6 @@ import java.util.List;
  * Uses {@link HashMap} in order to work as in-memory database.
  * <p>
  * Works as repository which stores all objects that provided by service
- * and also check invalid enum inputs
  */
 @Repository
 public class FakeJsonObjectDaoImpl implements JsonObjectDao {

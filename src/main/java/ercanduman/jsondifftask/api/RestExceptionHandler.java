@@ -9,7 +9,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
- * RestExceptionHandler created for exception handling
+ * RestExceptionHandler created for exception handling during executions.
+ * Extends {@link ResponseEntityExceptionHandler} object in order to handle
+ * across all @{@link org.springframework.web.bind.annotation.RequestMapping} methods through @{@link ExceptionHandler} methods.
  */
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {

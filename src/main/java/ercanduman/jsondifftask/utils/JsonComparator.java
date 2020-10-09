@@ -13,7 +13,7 @@ import java.util.List;
 public class JsonComparator {
 
     /**
-     * Compares two JSON strings and returns results based on equality of data
+     * Compares two JSON strings and returns results based on content of objects.
      * <p>
      * if two JSON data are equal return that
      * if Json objects are different but have same length, returns that

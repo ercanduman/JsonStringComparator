@@ -20,10 +20,10 @@ import java.io.IOException;
  * {@link RestController} is the place where all HTTP requests are handled.
  * <p>
  * Handles POST requests for /left and /right endpoints and stores
- * executed JSON data into in-memory database({@link java.util.HashMap})
+ * executed JSON data into in-memory database via using {@link JsonObjectService}
  * <p>
  * Handles GET requests for Constants.BASE_URL ("/v1/diff/{id}") by
- * returning result message which can be one of messages available
+ * returning result messages which can be one of the messages available
  * in {@link Constants} class.
  * <p>
  */
