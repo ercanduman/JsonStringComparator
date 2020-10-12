@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"ercanduman.jsondifftask"},{"l":"ercanduman.jsondifftask.api"},{"l":"ercanduman.jsondifftask.data.dao"},{"l":"ercanduman.jsondifftask.data.entity"},{"l":"ercanduman.jsondifftask.data.enums"},{"l":"ercanduman.jsondifftask.service"},{"l":"ercanduman.jsondifftask.utils"}]

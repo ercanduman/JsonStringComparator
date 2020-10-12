@@ -176,6 +176,9 @@ Steps;
 - Postman v7.34.0 
 - Java Development Kit (JDK) 13.0.2
 
+### Documentation in code
+For the documentation in code (Java docs) please double click on index.html under /target/docs/javadoc/ directory.
+
 Happy coding! :+1: :1st_place_medal:
 
 ## License
