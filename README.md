@@ -102,6 +102,11 @@ In first run of application, default JSON response will be as:
 ## Testing
 As a testing tool Postman is highly recommended to be used for making HTTP requests.
 
+Internal logic is under **unit test** which is available in classes of FakeJsonObjectDaoImplTest, JsonComparatorTest and JsonResponseCreatorTest.
+
+
+Functionality is under **integration test** which is available in classes of RestControllerTest and JsonObjectServiceTest.
+
 
 ### Testing insertion
 Steps;
