@@ -4,23 +4,30 @@ import ercanduman.jsondifftask.Constants;
 import ercanduman.jsondifftask.data.entity.JsonObject;
 import ercanduman.jsondifftask.data.enums.Side;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SpringBootTest
 class JsonComparatorTest {
-    private final JsonComparator comparator = new JsonComparator();
+
+    @Autowired
+    private JsonComparator comparator;
+    @Autowired
+    private JsonResponseCreator responseCreator;
 
     @Test
     void test_if_both_object_are_NULL_return_that() {
         String result = comparator.compare(null, null);
-        String expected = JsonResponseCreator.response(false, Constants.RESULT_OBJECTS_NULL, null);
+        String expected = responseCreator.response(false, Constants.RESULT_OBJECTS_NULL, null);
         assertEquals(expected, result);
     }
 
     @Test
     void test_if_one_object_are_NULL_return_that() {
         String result = comparator.compare(null, new JsonObject("1", "", Side.RIGHT));
-        String expected = JsonResponseCreator.response(false, Constants.RESULT_NULL_COMPARISON, null);
+        String expected = responseCreator.response(false, Constants.RESULT_NULL_COMPARISON, null);
         assertEquals(expected, result);
     }
 
@@ -29,7 +36,7 @@ class JsonComparatorTest {
         JsonObject object1 = new JsonObject("1", "", Side.LEFT);
         JsonObject object2 = new JsonObject("1", "", Side.RIGHT);
         String result = comparator.compare(object1, object2);
-        String expected = JsonResponseCreator.response(false, Constants.EXC_RESULT_EQUAL, null);
+        String expected = responseCreator.response(false, Constants.EXC_RESULT_EQUAL, null);
         assertEquals(expected, result);
     }
 
@@ -39,7 +46,7 @@ class JsonComparatorTest {
         JsonObject object2 = new JsonObject("1", "{\n  \"content\": \"User name 5 - updated\"\n}", Side.RIGHT);
         String result = comparator.compare(object1, object2);
 
-        String expected = JsonResponseCreator.response(false, Constants.EXC_RESULT_EQUAL, null);
+        String expected = responseCreator.response(false, Constants.EXC_RESULT_EQUAL, null);
         assertEquals(expected, result);
     }
 
@@ -49,7 +56,7 @@ class JsonComparatorTest {
         JsonObject object2 = new JsonObject("1", "{\n  \"content\": \"User name 4 - updated\"\n}", Side.RIGHT);
         String result = comparator.compare(object1, object2);
 
-        String expected = JsonResponseCreator.response(false, Constants.EXC_RESULT_DIFF_SIZE, null);
+        String expected = responseCreator.response(false, Constants.EXC_RESULT_DIFF_SIZE, null);
         assertEquals(expected, result);
     }
 
@@ -61,7 +68,7 @@ class JsonComparatorTest {
 
         String differences = "[{\"offset\":26,\"left char\":5,\"right char\":4}]";
         String message = String.format(Constants.EXC_RESULT_DIFF_OFFSET, 1);
-        String expected = JsonResponseCreator.response(false, message, differences);
+        String expected = responseCreator.response(false, message, differences);
 
         assertEquals(expected, result);
     }
@@ -74,7 +81,7 @@ class JsonComparatorTest {
 
         String differences = "[{\"offset\":26,\"left char\":8,\"right char\":6}]";
         String message = String.format(Constants.EXC_RESULT_DIFF_OFFSET, 1);
-        String expected = JsonResponseCreator.response(false, message, differences);
+        String expected = responseCreator.response(false, message, differences);
 
         assertEquals(expected, result);
     }

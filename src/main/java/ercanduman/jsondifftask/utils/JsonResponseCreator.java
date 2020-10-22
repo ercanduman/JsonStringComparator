@@ -1,5 +1,7 @@
 package ercanduman.jsondifftask.utils;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Generates JSON messages for requests
  * <p>
@@ -12,6 +14,7 @@ package ercanduman.jsondifftask.utils;
  * }
  * ```
  */
+@Component
 public class JsonResponseCreator {
     /**
      * Generates JSON message based on given parameters.
@@ -21,7 +24,7 @@ public class JsonResponseCreator {
      * @param differences {@link ercanduman.jsondifftask.utils.JsonComparator.Difference} objects provided from {@link JsonComparator} object
      * @return json string message
      */
-    public static String response(boolean isError, String message, String differences) {
+    public String response(boolean isError, String message, String differences) {
         StringBuilder builder = new StringBuilder("{");
         builder.append("\"error\": ").append(isError)
                 .append(",\"message\":\"").append(message);

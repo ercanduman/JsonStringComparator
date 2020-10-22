@@ -2,6 +2,7 @@ package ercanduman.jsondifftask.utils;
 
 import ercanduman.jsondifftask.Constants;
 import ercanduman.jsondifftask.data.entity.JsonObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -13,6 +14,9 @@ import java.util.List;
  */
 @Component
 public class JsonComparator {
+
+    @Autowired
+    private JsonResponseCreator responseCreator;
 
     /**
      * Compares two JSON strings and returns results based on content of objects.
@@ -27,18 +31,18 @@ public class JsonComparator {
      */
     public String compare(JsonObject firstObject, JsonObject secondObject) {
         if (firstObject == null && secondObject == null)
-            return JsonResponseCreator.response(false, Constants.RESULT_OBJECTS_NULL, null);
+            return responseCreator.response(false, Constants.RESULT_OBJECTS_NULL, null);
 
         if (firstObject == null || secondObject == null)
-            return JsonResponseCreator.response(false, Constants.RESULT_NULL_COMPARISON, null);
+            return responseCreator.response(false, Constants.RESULT_NULL_COMPARISON, null);
 
         char[] firstChars = firstObject.getContent().toCharArray();
         char[] secondChars = secondObject.getContent().toCharArray();
 
         if (Arrays.equals(firstChars, secondChars))
-            return JsonResponseCreator.response(false, Constants.EXC_RESULT_EQUAL, null);
+            return responseCreator.response(false, Constants.EXC_RESULT_EQUAL, null);
         else if (firstChars.length != secondChars.length)
-            return JsonResponseCreator.response(false, Constants.EXC_RESULT_DIFF_SIZE, null);
+            return responseCreator.response(false, Constants.EXC_RESULT_DIFF_SIZE, null);
         else {
             List<Difference> differences = new LinkedList<>();
             for (int i = 0; i < firstChars.length; i++) {
@@ -47,7 +51,7 @@ public class JsonComparator {
                 }
             }
             String message = String.format(Constants.EXC_RESULT_DIFF_OFFSET, differences.size());
-            return JsonResponseCreator.response(false, message, differences.toString());
+            return responseCreator.response(false, message, differences.toString());
         }
     }
 

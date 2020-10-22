@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class RestControllerTest {
     @Autowired
     RestController controller;
+    @Autowired
+    private JsonResponseCreator responseCreator;
 
     @Test
     void test_insertLeft_should_insert_json_data_successfully() {
@@ -24,7 +26,7 @@ public class RestControllerTest {
         String json = "\n  content -- \"User name 6 - updated\"\n}";
         String id = "2";
         String actual = controller.insertLeft(id, json);
-        String expected = JsonResponseCreator.response(true, INVALID_JSON_ERROR, null);
+        String expected = responseCreator.response(true, INVALID_JSON_ERROR, null);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -40,7 +42,7 @@ public class RestControllerTest {
         String json = "\n  content -- \"User name 6 - updated\"\n}";
         String id = "2";
         String actual = controller.insertRight(id, json);
-        String expected = JsonResponseCreator.response(true, INVALID_JSON_ERROR, null);
+        String expected = responseCreator.response(true, INVALID_JSON_ERROR, null);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -53,7 +55,7 @@ public class RestControllerTest {
         controller.insertRight(id, json);
 
         String actual = controller.result(id);
-        String expected = JsonResponseCreator.response(false, Constants.EXC_RESULT_EQUAL, null);
+        String expected = responseCreator.response(false, Constants.EXC_RESULT_EQUAL, null);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -66,7 +68,7 @@ public class RestControllerTest {
         controller.insertLeft(id, jsonLeft);
         controller.insertRight(id, jsonRight);
 
-        String expected = JsonResponseCreator.response(false, Constants.EXC_RESULT_DIFF_SIZE, null);
+        String expected = responseCreator.response(false, Constants.EXC_RESULT_DIFF_SIZE, null);
         String actual = controller.result(id);
         Assertions.assertEquals(expected, actual);
     }
@@ -82,7 +84,7 @@ public class RestControllerTest {
 
         String message = String.format(Constants.EXC_RESULT_DIFF_OFFSET, 1);
         String differences = "[{\"offset\":22,\"left char\":5,\"right char\":6}]";
-        String expected = JsonResponseCreator.response(false, message, differences);
+        String expected = responseCreator.response(false, message, differences);
 
         String actual = controller.result(id);
         Assertions.assertEquals(expected, actual);

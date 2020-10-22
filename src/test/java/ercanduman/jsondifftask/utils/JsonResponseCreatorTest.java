@@ -2,14 +2,20 @@ package ercanduman.jsondifftask.utils;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 class JsonResponseCreatorTest {
+    @Autowired
+    private JsonResponseCreator responseCreator;
+
     @Test
     void test_generate_json_if_differences_NULL() {
         boolean isError = false;
         String message = "Inserted successfully.";
 
-        String actual = JsonResponseCreator.response(isError, message, null);
+        String actual = responseCreator.response(isError, message, null);
 
         String expected = "{\n" +
                 "  \"error\": false,\n" +
@@ -24,7 +30,7 @@ class JsonResponseCreatorTest {
         boolean isError = false;
         String message = "Execution successful.";
         String difference = "[{\"offset\":22,\"left char\":5,\"right char\":6}]";
-        String actual = JsonResponseCreator.response(isError, message, difference);
+        String actual = responseCreator.response(isError, message, difference);
 
         String expected = "{\n" +
                 "  \"error\": false,\n" +
@@ -57,7 +63,7 @@ class JsonResponseCreatorTest {
                 "      \"right char\": 6\n" +
                 "    }\n" +
                 "  ]";
-        String actual = JsonResponseCreator.response(isError, message, difference);
+        String actual = responseCreator.response(isError, message, difference);
 
         String expected = "{\n" +
                 "  \"error\": false,\n" +
@@ -84,7 +90,7 @@ class JsonResponseCreatorTest {
         boolean isError = false;
         String message = "Execution successful.";
         String difference = "[{\"offset\":26,\"left char\":8,\"right char\":6}, {\"offset\":27,\"left char\":2,\"right char\":5}, {\"offset\":28,\"left char\":3,\"right char\":6}]";
-        String actual = JsonResponseCreator.response(isError, message, difference);
+        String actual = responseCreator.response(isError, message, difference);
 
         String expected = "{\n" +
                 "  \"error\": false,\n" +

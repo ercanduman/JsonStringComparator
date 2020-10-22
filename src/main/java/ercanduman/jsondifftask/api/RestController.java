@@ -30,14 +30,11 @@ import java.io.IOException;
 @RequestMapping(Constants.BASE_URL)
 public class RestController {
     @Autowired
-    private final JsonObjectService service;
+    private JsonObjectService service;
     @Autowired
-    private final JsonComparator comparator;
-
-    public RestController(JsonObjectService service, JsonComparator comparator) {
-        this.service = service;
-        this.comparator = comparator;
-    }
+    private JsonComparator comparator;
+    @Autowired
+    private JsonResponseCreator responseCreator;
 
     /**
      * Handles POST requests and stores passed JSON data into {@link JsonObject}
@@ -55,9 +52,9 @@ public class RestController {
             String jsonData = isJsonValid(json);
             JsonObject object = new JsonObject(id, jsonData, Side.LEFT);
             service.insertLeft(object);
-            return JsonResponseCreator.response(false, Constants.EXC_RESPONSE_INSERTED, null);
+            return responseCreator.response(false, Constants.EXC_RESPONSE_INSERTED, null);
         } catch (JsonParseException | IOException e) {
-            return JsonResponseCreator.response(true, "Invalid JSON found! Error: " + e.getMessage(), null);
+            return responseCreator.response(true, "Invalid JSON found! Error: " + e.getMessage(), null);
         }
     }
 
@@ -77,9 +74,9 @@ public class RestController {
             String jsonData = isJsonValid(json);
             JsonObject object = new JsonObject(id, jsonData, Side.RIGHT);
             service.insertRight(object);
-            return JsonResponseCreator.response(false, Constants.EXC_RESPONSE_INSERTED, null);
+            return responseCreator.response(false, Constants.EXC_RESPONSE_INSERTED, null);
         } catch (JsonParseException | IOException e) {
-            return JsonResponseCreator.response(true, "Invalid JSON found! Error: " + e.getMessage(), null);
+            return responseCreator.response(true, "Invalid JSON found! Error: " + e.getMessage(), null);
         }
     }
 
