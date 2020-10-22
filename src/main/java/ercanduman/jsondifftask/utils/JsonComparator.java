@@ -2,6 +2,7 @@ package ercanduman.jsondifftask.utils;
 
 import ercanduman.jsondifftask.Constants;
 import ercanduman.jsondifftask.data.entity.JsonObject;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * Compares two json string
  */
+@Component
 public class JsonComparator {
 
     /**
@@ -23,7 +25,7 @@ public class JsonComparator {
      * @param secondObject second {@link JsonObject}
      * @return result text
      */
-    public static String compare(JsonObject firstObject, JsonObject secondObject) {
+    public String compare(JsonObject firstObject, JsonObject secondObject) {
         if (firstObject == null && secondObject == null)
             return JsonResponseCreator.response(false, Constants.RESULT_OBJECTS_NULL, null);
 

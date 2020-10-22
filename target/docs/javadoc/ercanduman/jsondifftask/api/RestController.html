@@ -103,7 +103,7 @@ extends java.lang.Object</pre>
 <div class="block"><a href="RestController.html" title="class in ercanduman.jsondifftask.api"><code>RestController</code></a> is the place where all HTTP requests are handled.
  <p>
  Handles POST requests for /left and /right endpoints and stores
- executed JSON data into in-memory database via using <a href="../service/JsonObjectService.html" title="class in ercanduman.jsondifftask.service"><code>JsonObjectService</code></a>
+ executed JSON data into in-memory database via using <a href="../service/JsonObjectService.html" title="class in ercanduman.jsondifftask.data.service"><code>JsonObjectService</code></a>
  <p>
  Handles GET requests for Constants.BASE_URL ("/v1/diff/{id}") by
  returning result messages which can be one of the messages available
@@ -128,7 +128,7 @@ extends java.lang.Object</pre>
 </thead>
 <tbody>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(ercanduman.jsondifftask.service.JsonObjectService)">RestController</a></span>&#8203;(<a href="../service/JsonObjectService.html" title="class in ercanduman.jsondifftask.service">JsonObjectService</a>&nbsp;service)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(ercanduman.jsondifftask.data.service.JsonObjectService)">RestController</a></span>&#8203;(<a href="../service/JsonObjectService.html" title="class in ercanduman.jsondifftask.data.service">JsonObjectService</a>&nbsp;service)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </tbody>
@@ -203,8 +203,8 @@ java.lang.String&nbsp;json)</code></th>
 <ul class="blockList">
 <li class="blockList">
 <section class="detail">
-<h3><a id="&lt;init&gt;(ercanduman.jsondifftask.service.JsonObjectService)">RestController</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="memberName">RestController</span>&#8203;(<span class="arguments"><a href="../service/JsonObjectService.html" title="class in ercanduman.jsondifftask.service">JsonObjectService</a>&nbsp;service)</span></div>
+<h3><a id="&lt;init&gt;(ercanduman.jsondifftask.data.service.JsonObjectService)">RestController</a></h3>
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="memberName">RestController</span>&#8203;(<span class="arguments"><a href="../service/JsonObjectService.html" title="class in ercanduman.jsondifftask.data.service">JsonObjectService</a>&nbsp;service)</span></div>
 </section>
 </li>
 </ul>
@@ -230,7 +230,7 @@ java.lang.String&nbsp;json)</span></div>
 <div class="block">Handles POST requests and stores passed JSON data into <a href="../data/entity/JsonObject.html" title="class in ercanduman.jsondifftask.data.entity"><code>JsonObject</code></a>
  by appending enum value of LEFT from <a href="../data/enums/Side.html" title="enum in ercanduman.jsondifftask.data.enums"><code>Side</code></a> enum class.
  <p>
- Calls <a href="../service/JsonObjectService.html" title="class in ercanduman.jsondifftask.service"><code>JsonObjectService</code></a> and inserts a new <a href="../data/entity/JsonObject.html" title="class in ercanduman.jsondifftask.data.entity"><code>JsonObject</code></a> into database.</div>
+ Calls <a href="../service/JsonObjectService.html" title="class in ercanduman.jsondifftask.data.service"><code>JsonObjectService</code></a> and inserts a new <a href="../data/entity/JsonObject.html" title="class in ercanduman.jsondifftask.data.entity"><code>JsonObject</code></a> into database.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>id</code> - parameter value and object id</dd>
@@ -253,7 +253,7 @@ java.lang.String&nbsp;json)</span></div>
 <div class="block">Handles POST requests and stores passed JSON data into <a href="../data/entity/JsonObject.html" title="class in ercanduman.jsondifftask.data.entity"><code>JsonObject</code></a>
  by appending enum value of RIGHT from <a href="../data/enums/Side.html" title="enum in ercanduman.jsondifftask.data.enums"><code>Side</code></a> enum class.
  <p>
- Calls <a href="../service/JsonObjectService.html" title="class in ercanduman.jsondifftask.service"><code>JsonObjectService</code></a> and inserts a new <a href="../data/entity/JsonObject.html" title="class in ercanduman.jsondifftask.data.entity"><code>JsonObject</code></a> into database.</div>
+ Calls <a href="../service/JsonObjectService.html" title="class in ercanduman.jsondifftask.data.service"><code>JsonObjectService</code></a> and inserts a new <a href="../data/entity/JsonObject.html" title="class in ercanduman.jsondifftask.data.entity"><code>JsonObject</code></a> into database.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>id</code> - parameter value and object id</dd>

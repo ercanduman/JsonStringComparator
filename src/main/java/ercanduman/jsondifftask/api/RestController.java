@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ercanduman.jsondifftask.Constants;
 import ercanduman.jsondifftask.data.entity.JsonObject;
 import ercanduman.jsondifftask.data.enums.Side;
-import ercanduman.jsondifftask.service.JsonObjectService;
+import ercanduman.jsondifftask.data.service.JsonObjectService;
 import ercanduman.jsondifftask.utils.JsonComparator;
 import ercanduman.jsondifftask.utils.JsonResponseCreator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +31,12 @@ import java.io.IOException;
 public class RestController {
     @Autowired
     private final JsonObjectService service;
+    @Autowired
+    private final JsonComparator comparator;
 
-    public RestController(JsonObjectService service) {
+    public RestController(JsonObjectService service, JsonComparator comparator) {
         this.service = service;
+        this.comparator = comparator;
     }
 
     /**
@@ -106,6 +109,6 @@ public class RestController {
      */
     @GetMapping(produces = "application/json")
     public String result(@PathVariable("id") String id) {
-        return JsonComparator.compare(service.getLeftObject(id), service.getRightObject(id));
+        return comparator.compare(service.getLeftObject(id), service.getRightObject(id));
     }
 }

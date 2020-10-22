@@ -1,4 +1,4 @@
-package ercanduman.jsondifftask.service;
+package ercanduman.jsondifftask.data.service;
 
 import ercanduman.jsondifftask.data.entity.JsonObject;
 import ercanduman.jsondifftask.data.enums.Side;
