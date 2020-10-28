@@ -1,11 +1,14 @@
 package ercanduman.jsondifftask.api;
 
 import ercanduman.jsondifftask.Constants;
+import ercanduman.jsondifftask.utils.JsonComparator;
 import ercanduman.jsondifftask.utils.JsonResponseCreator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 @SpringBootTest
 public class RestControllerTest {
@@ -26,7 +29,12 @@ public class RestControllerTest {
         String json = "\n  content -- \"User name 6 - updated\"\n}";
         String id = "2";
         String actual = controller.insertLeft(id, json);
-        String expected = responseCreator.response(true, INVALID_JSON_ERROR, null);
+
+        responseCreator.setError(true);
+        responseCreator.setMessage(INVALID_JSON_ERROR);
+        responseCreator.setDifferences(null);
+        String expected = responseCreator.toString();
+
         Assertions.assertEquals(expected, actual);
     }
 
@@ -42,7 +50,12 @@ public class RestControllerTest {
         String json = "\n  content -- \"User name 6 - updated\"\n}";
         String id = "2";
         String actual = controller.insertRight(id, json);
-        String expected = responseCreator.response(true, INVALID_JSON_ERROR, null);
+
+        responseCreator.setError(true);
+        responseCreator.setMessage(INVALID_JSON_ERROR);
+        responseCreator.setDifferences(null);
+        String expected = responseCreator.toString();
+
         Assertions.assertEquals(expected, actual);
     }
 
@@ -55,7 +68,11 @@ public class RestControllerTest {
         controller.insertRight(id, json);
 
         String actual = controller.result(id);
-        String expected = responseCreator.response(false, Constants.EXC_RESULT_EQUAL, null);
+        responseCreator.setError(false);
+        responseCreator.setMessage(Constants.EXC_RESULT_EQUAL);
+        responseCreator.setDifferences(null);
+        String expected = responseCreator.toString();
+
         Assertions.assertEquals(expected, actual);
     }
 
@@ -68,7 +85,11 @@ public class RestControllerTest {
         controller.insertLeft(id, jsonLeft);
         controller.insertRight(id, jsonRight);
 
-        String expected = responseCreator.response(false, Constants.EXC_RESULT_DIFF_SIZE, null);
+        responseCreator.setError(false);
+        responseCreator.setMessage(Constants.EXC_RESULT_DIFF_SIZE);
+        responseCreator.setDifferences(null);
+        String expected = responseCreator.toString();
+
         String actual = controller.result(id);
         Assertions.assertEquals(expected, actual);
     }
@@ -83,8 +104,12 @@ public class RestControllerTest {
         controller.insertRight(id, jsonRight);
 
         String message = String.format(Constants.EXC_RESULT_DIFF_OFFSET, 1);
-        String differences = "[{\"offset\":22,\"leftChar\":\"5\",\"rightChar\":\"6\"}]";
-        String expected = responseCreator.response(false, message, differences);
+
+        responseCreator.setError(false);
+        responseCreator.setMessage(message);
+        JsonComparator.Difference difference = new JsonComparator.Difference(22, '5', '6');
+        responseCreator.setDifferences(List.of(difference));
+        String expected = responseCreator.toString();
 
         String actual = controller.result(id);
         Assertions.assertEquals(expected, actual);

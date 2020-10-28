@@ -19,6 +19,14 @@ import java.util.List;
  * "message": "Inserted successfully."
  * }
  * ```
+ * <p>
+ * <p>
+ * Generates JSON message based on given parameters.
+ * <p>
+ * error     boolean value which can be true or false.
+ * message     text message
+ * differences {@link ercanduman.jsondifftask.utils.JsonComparator.Difference} objects provided from {@link JsonComparator} object
+ * returns json string message
  */
 @JsonComponent
 @JsonPropertyOrder({"error", "message", "differences"})
@@ -52,6 +60,11 @@ public class JsonResponseCreator {
         this.differences = differences;
     }
 
+    /**
+     * Generates JSON message based on given parameters.
+     *
+     * @return json string message
+     */
     @Override
     public String toString() {
         try {
@@ -60,25 +73,5 @@ public class JsonResponseCreator {
             e.printStackTrace();
         }
         return "";
-    }
-
-    /**
-     * Generates JSON message based on given parameters.
-     *
-     * @param isError     boolean value which can be true or false.
-     * @param message     text message
-     * @param differences {@link ercanduman.jsondifftask.utils.JsonComparator.Difference} objects provided from {@link JsonComparator} object
-     * @return json string message
-     */
-    public String response(boolean isError, String message, String differences) {
-        StringBuilder builder = new StringBuilder("{");
-        builder.append("\"error\":").append(isError)
-                .append(",\"message\":\"").append(message);
-
-        if (differences != null) {
-            builder.append("\",").append("\"differences\":").append(differences);
-            builder.append("}");
-        } else builder.append("\"}");
-        return builder.toString();
     }
 }

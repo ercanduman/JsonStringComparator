@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collections;
+import java.util.List;
 
 @SpringBootTest
 class JsonResponseCreatorTest {
@@ -28,10 +29,12 @@ class JsonResponseCreatorTest {
 
     @Test
     void test_generate_json_if_differences_NULL() {
-        boolean isError = false;
         String message = "Inserted successfully.";
+        responseCreator.setError(false);
+        responseCreator.setMessage(message);
+        responseCreator.setDifferences(null);
 
-        String actual = responseCreator.response(isError, message, null);
+        String actual = responseCreator.toString();
 
         String expected = "{\n" +
                 "  \"error\": false,\n" +
@@ -43,10 +46,14 @@ class JsonResponseCreatorTest {
 
     @Test
     void test_generate_json_if_differences_provided() {
-        boolean isError = false;
         String message = "Execution successful.";
-        String difference = "[{\"offset\":22,\"leftChar\":5,\"rightChar\":6}]";
-        String actual = responseCreator.response(isError, message, difference);
+        JsonComparator.Difference difference = new JsonComparator.Difference(22, '5', '6');
+
+        responseCreator.setError(false);
+        responseCreator.setMessage(message);
+        responseCreator.setDifferences(List.of(difference));
+
+        String actual = responseCreator.toString();
 
         String expected = "{\n" +
                 "  \"error\": false,\n" +
@@ -54,8 +61,8 @@ class JsonResponseCreatorTest {
                 "  \"differences\":[\n" +
                 "    {\n" +
                 "      \"offset\": 22,\n" +
-                "      \"leftChar\": 5,\n" +
-                "      \"rightChar\": 6\n" +
+                "      \"leftChar\": \"5\",\n" +
+                "      \"rightChar\": \"6\"\n" +
                 "    }\n" +
                 "  ]\n" +
                 "}";
@@ -65,21 +72,15 @@ class JsonResponseCreatorTest {
 
     @Test
     void test_generate_json_if_differences_provided_2_instances() {
-        boolean isError = false;
         String message = "Execution successful.";
-        String difference = "[\n" +
-                "    {\n" +
-                "      \"offset\": 22,\n" +
-                "      \"leftChar\": 5,\n" +
-                "      \"rightChar\": 6\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"offset\": 22,\n" +
-                "      \"leftChar\": 5,\n" +
-                "      \"rightChar\": 6\n" +
-                "    }\n" +
-                "  ]";
-        String actual = responseCreator.response(isError, message, difference);
+        JsonComparator.Difference difference1 = new JsonComparator.Difference(22, '5', '6');
+        JsonComparator.Difference difference2 = new JsonComparator.Difference(23, '5', '6');
+
+        responseCreator.setError(false);
+        responseCreator.setMessage(message);
+        responseCreator.setDifferences(List.of(difference1, difference2));
+
+        String actual = responseCreator.toString();
 
         String expected = "{\n" +
                 "  \"error\": false,\n" +
@@ -87,13 +88,13 @@ class JsonResponseCreatorTest {
                 "  \"differences\":[\n" +
                 "    {\n" +
                 "      \"offset\": 22,\n" +
-                "      \"leftChar\": 5,\n" +
-                "      \"rightChar\": 6\n" +
+                "      \"leftChar\": \"5\",\n" +
+                "      \"rightChar\": \"6\"\n" +
                 "    },\n" +
                 "{\n" +
-                "      \"offset\": 22,\n" +
-                "      \"leftChar\": 5,\n" +
-                "      \"rightChar\": 6\n" +
+                "      \"offset\": 23,\n" +
+                "      \"leftChar\": \"5\",\n" +
+                "      \"rightChar\": \"6\"\n" +
                 "    }\n" +
                 "  ]\n" +
                 "}";
@@ -103,10 +104,16 @@ class JsonResponseCreatorTest {
 
     @Test
     void test_generate_json_if_differences_provided_3_instances() {
-        boolean isError = false;
         String message = "Execution successful.";
-        String difference = "[{\"offset\":26,\"leftChar\":8,\"rightChar\":6}, {\"offset\":27,\"leftChar\":2,\"rightChar\":5}, {\"offset\":28,\"leftChar\":3,\"rightChar\":6}]";
-        String actual = responseCreator.response(isError, message, difference);
+
+        JsonComparator.Difference difference1 = new JsonComparator.Difference(26, '8', '6');
+        JsonComparator.Difference difference2 = new JsonComparator.Difference(27, '2', '5');
+        JsonComparator.Difference difference3 = new JsonComparator.Difference(28, '3', '6');
+
+        responseCreator.setError(false);
+        responseCreator.setMessage(message);
+        responseCreator.setDifferences(List.of(difference1, difference2, difference3));
+        String actual = responseCreator.toString();
 
         String expected = "{\n" +
                 "  \"error\": false,\n" +
@@ -114,18 +121,18 @@ class JsonResponseCreatorTest {
                 "  \"differences\":[\n" +
                 "    {\n" +
                 "      \"offset\": 26,\n" +
-                "      \"leftChar\": 8,\n" +
-                "      \"rightChar\": 6\n" +
+                "      \"leftChar\": \"8\",\n" +
+                "      \"rightChar\": \"6\"\n" +
                 "    },\n" +
                 "    {\n" +
                 "      \"offset\": 27,\n" +
-                "      \"leftChar\": 2,\n" +
-                "      \"rightChar\": 5\n" +
+                "      \"leftChar\": \"2\",\n" +
+                "      \"rightChar\": \"5\"\n" +
                 "    },\n" +
                 "    {\n" +
                 "      \"offset\": 28,\n" +
-                "      \"leftChar\": 3,\n" +
-                "      \"rightChar\": 6\n" +
+                "      \"leftChar\": \"3\",\n" +
+                "      \"rightChar\": \"6\"\n" +
                 "    }\n" +
                 "  ]\n" +
                 "}";

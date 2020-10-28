@@ -52,9 +52,16 @@ public class RestController {
             String jsonData = isJsonValid(json);
             JsonObject object = new JsonObject(id, jsonData, Side.LEFT);
             service.insertLeft(object);
-            return responseCreator.response(false, Constants.EXC_RESPONSE_INSERTED, null);
+
+            responseCreator.setError(false);
+            responseCreator.setMessage(Constants.EXC_RESPONSE_INSERTED);
+            responseCreator.setDifferences(null);
+            return responseCreator.toString();
         } catch (JsonParseException | IOException e) {
-            return responseCreator.response(true, "Invalid JSON found! Error: " + e.getMessage(), null);
+            responseCreator.setError(true);
+            responseCreator.setMessage("Invalid JSON found! Error: " + e.getMessage());
+            responseCreator.setDifferences(null);
+            return responseCreator.toString();
         }
     }
 
@@ -74,9 +81,16 @@ public class RestController {
             String jsonData = isJsonValid(json);
             JsonObject object = new JsonObject(id, jsonData, Side.RIGHT);
             service.insertRight(object);
-            return responseCreator.response(false, Constants.EXC_RESPONSE_INSERTED, null);
+
+            responseCreator.setError(false);
+            responseCreator.setMessage(Constants.EXC_RESPONSE_INSERTED);
+            responseCreator.setDifferences(null);
+            return responseCreator.toString();
         } catch (JsonParseException | IOException e) {
-            return responseCreator.response(true, "Invalid JSON found! Error: " + e.getMessage(), null);
+            responseCreator.setError(true);
+            responseCreator.setMessage("Invalid JSON found! Error: " + e.getMessage());
+            responseCreator.setDifferences(null);
+            return responseCreator.toString();
         }
     }
 
