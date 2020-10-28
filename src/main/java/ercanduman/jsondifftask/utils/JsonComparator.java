@@ -30,28 +30,37 @@ public class JsonComparator {
      * @return result text
      */
     public String compare(JsonObject firstObject, JsonObject secondObject) {
-        if (firstObject == null && secondObject == null)
-            return responseCreator.response(false, Constants.RESULT_OBJECTS_NULL, null);
+        responseCreator.setError(false);
+        responseCreator.setDifferences(null);
+        if (firstObject == null && secondObject == null) {
+            responseCreator.setMessage(Constants.RESULT_OBJECTS_NULL);
+            return responseCreator.toString();
+        }
 
-        if (firstObject == null || secondObject == null)
-            return responseCreator.response(false, Constants.RESULT_NULL_COMPARISON, null);
+        if (firstObject == null || secondObject == null) {
+            responseCreator.setMessage(Constants.RESULT_NULL_COMPARISON);
+            return responseCreator.toString();
+        }
 
         char[] firstChars = firstObject.getContent().toCharArray();
         char[] secondChars = secondObject.getContent().toCharArray();
 
-        if (Arrays.equals(firstChars, secondChars))
-            return responseCreator.response(false, Constants.EXC_RESULT_EQUAL, null);
-        else if (firstChars.length != secondChars.length)
-            return responseCreator.response(false, Constants.EXC_RESULT_DIFF_SIZE, null);
-        else {
+        if (Arrays.equals(firstChars, secondChars)) {
+            responseCreator.setMessage(Constants.EXC_RESULT_EQUAL);
+            return responseCreator.toString();
+        } else if (firstChars.length != secondChars.length) {
+            responseCreator.setMessage(Constants.EXC_RESULT_DIFF_SIZE);
+            return responseCreator.toString();
+        } else {
             List<Difference> differences = new LinkedList<>();
             for (int i = 0; i < firstChars.length; i++) {
                 if (firstChars[i] != secondChars[i]) {
                     differences.add(new Difference(i, firstChars[i], secondChars[i]));
                 }
             }
-            String message = String.format(Constants.EXC_RESULT_DIFF_OFFSET, differences.size());
-            return responseCreator.response(false, message, differences.toString());
+            responseCreator.setMessage(String.format(Constants.EXC_RESULT_DIFF_OFFSET, differences.size()));
+            responseCreator.setDifferences(differences);
+            return responseCreator.toString();
         }
     }
 
@@ -64,7 +73,7 @@ public class JsonComparator {
      * This object will provide JSON result text with non-matched characters'
      * offset and left and right characters itself.
      */
-    static class Difference {
+    public static class Difference {
         private final int offset;
         private final Character leftChar;
         private final Character rightChar;
@@ -75,13 +84,16 @@ public class JsonComparator {
             this.rightChar = rightChar;
         }
 
-        @Override
-        public String toString() {
-            return "{" +
-                    "\"offset\":" + offset +
-                    ",\"left char\":" + leftChar +
-                    ",\"right char\":" + rightChar +
-                    '}';
+        public int getOffset() {
+            return offset;
+        }
+
+        public Character getLeftChar() {
+            return leftChar;
+        }
+
+        public Character getRightChar() {
+            return rightChar;
         }
     }
 }

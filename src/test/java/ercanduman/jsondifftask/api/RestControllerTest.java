@@ -83,7 +83,7 @@ public class RestControllerTest {
         controller.insertRight(id, jsonRight);
 
         String message = String.format(Constants.EXC_RESULT_DIFF_OFFSET, 1);
-        String differences = "[{\"offset\":22,\"left char\":5,\"right char\":6}]";
+        String differences = "[{\"offset\":22,\"leftChar\":\"5\",\"rightChar\":\"6\"}]";
         String expected = responseCreator.response(false, message, differences);
 
         String actual = controller.result(id);

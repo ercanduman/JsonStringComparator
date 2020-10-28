@@ -66,7 +66,7 @@ class JsonComparatorTest {
         JsonObject object2 = new JsonObject("1", "{\n  \"content\": \"User name 4 - updated\"\n}", Side.RIGHT);
         String result = comparator.compare(object1, object2);
 
-        String differences = "[{\"offset\":26,\"left char\":5,\"right char\":4}]";
+        String differences = "[{\"offset\":26,\"leftChar\":\"5\",\"rightChar\":\"4\"}]";
         String message = String.format(Constants.EXC_RESULT_DIFF_OFFSET, 1);
         String expected = responseCreator.response(false, message, differences);
 
@@ -79,7 +79,7 @@ class JsonComparatorTest {
         JsonObject object2 = new JsonObject("1", "{\n  \"content\": \"User name 6 - updated\"\n}", Side.RIGHT);
         String result = comparator.compare(object1, object2);
 
-        String differences = "[{\"offset\":26,\"left char\":8,\"right char\":6}]";
+        String differences = "[{\"offset\":26,\"leftChar\":\"8\",\"rightChar\":\"6\"}]";
         String message = String.format(Constants.EXC_RESULT_DIFF_OFFSET, 1);
         String expected = responseCreator.response(false, message, differences);
 

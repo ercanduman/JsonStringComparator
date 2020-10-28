@@ -1,14 +1,30 @@
 package ercanduman.jsondifftask.utils;
 
+import ercanduman.jsondifftask.Constants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Collections;
+
 @SpringBootTest
 class JsonResponseCreatorTest {
     @Autowired
     private JsonResponseCreator responseCreator;
+
+    @Test
+    void test_json_response_to_create_json_string() {
+        JsonComparator.Difference difference = new JsonComparator.Difference(1, '3', '5');
+        responseCreator.setError(false);
+        responseCreator.setMessage(Constants.EXC_RESULT_DIFF_OFFSET);
+        responseCreator.setDifferences(Collections.singletonList(difference));
+
+        String notCorrectOrder = "{\"error\":false,\"message\":\"Execution successful. Objects have same size but differences. Difference length: %s.\",\"differences\":[{\"offset\":1,\"leftChar\":\"3\",\"rightChar\":\"5\"}]}";
+        String result3 = responseCreator.toString();
+        System.out.println(result3);
+        Assertions.assertEquals(notCorrectOrder, result3);
+    }
 
     @Test
     void test_generate_json_if_differences_NULL() {
@@ -29,17 +45,17 @@ class JsonResponseCreatorTest {
     void test_generate_json_if_differences_provided() {
         boolean isError = false;
         String message = "Execution successful.";
-        String difference = "[{\"offset\":22,\"left char\":5,\"right char\":6}]";
+        String difference = "[{\"offset\":22,\"leftChar\":5,\"rightChar\":6}]";
         String actual = responseCreator.response(isError, message, difference);
 
         String expected = "{\n" +
                 "  \"error\": false,\n" +
                 "  \"message\": \"Execution successful.\",\n" +
-                "  \"Differences\": [\n" +
+                "  \"differences\":[\n" +
                 "    {\n" +
                 "      \"offset\": 22,\n" +
-                "      \"left char\": 5,\n" +
-                "      \"right char\": 6\n" +
+                "      \"leftChar\": 5,\n" +
+                "      \"rightChar\": 6\n" +
                 "    }\n" +
                 "  ]\n" +
                 "}";
@@ -54,13 +70,13 @@ class JsonResponseCreatorTest {
         String difference = "[\n" +
                 "    {\n" +
                 "      \"offset\": 22,\n" +
-                "      \"left char\": 5,\n" +
-                "      \"right char\": 6\n" +
+                "      \"leftChar\": 5,\n" +
+                "      \"rightChar\": 6\n" +
                 "    },\n" +
                 "    {\n" +
                 "      \"offset\": 22,\n" +
-                "      \"left char\": 5,\n" +
-                "      \"right char\": 6\n" +
+                "      \"leftChar\": 5,\n" +
+                "      \"rightChar\": 6\n" +
                 "    }\n" +
                 "  ]";
         String actual = responseCreator.response(isError, message, difference);
@@ -68,16 +84,16 @@ class JsonResponseCreatorTest {
         String expected = "{\n" +
                 "  \"error\": false,\n" +
                 "  \"message\": \"Execution successful.\",\n" +
-                "  \"Differences\": [\n" +
+                "  \"differences\":[\n" +
                 "    {\n" +
                 "      \"offset\": 22,\n" +
-                "      \"left char\": 5,\n" +
-                "      \"right char\": 6\n" +
+                "      \"leftChar\": 5,\n" +
+                "      \"rightChar\": 6\n" +
                 "    },\n" +
                 "{\n" +
                 "      \"offset\": 22,\n" +
-                "      \"left char\": 5,\n" +
-                "      \"right char\": 6\n" +
+                "      \"leftChar\": 5,\n" +
+                "      \"rightChar\": 6\n" +
                 "    }\n" +
                 "  ]\n" +
                 "}";
@@ -89,27 +105,27 @@ class JsonResponseCreatorTest {
     void test_generate_json_if_differences_provided_3_instances() {
         boolean isError = false;
         String message = "Execution successful.";
-        String difference = "[{\"offset\":26,\"left char\":8,\"right char\":6}, {\"offset\":27,\"left char\":2,\"right char\":5}, {\"offset\":28,\"left char\":3,\"right char\":6}]";
+        String difference = "[{\"offset\":26,\"leftChar\":8,\"rightChar\":6}, {\"offset\":27,\"leftChar\":2,\"rightChar\":5}, {\"offset\":28,\"leftChar\":3,\"rightChar\":6}]";
         String actual = responseCreator.response(isError, message, difference);
 
         String expected = "{\n" +
                 "  \"error\": false,\n" +
                 "  \"message\": \"Execution successful.\",\n" +
-                "  \"Differences\": [\n" +
+                "  \"differences\":[\n" +
                 "    {\n" +
                 "      \"offset\": 26,\n" +
-                "      \"left char\": 8,\n" +
-                "      \"right char\": 6\n" +
+                "      \"leftChar\": 8,\n" +
+                "      \"rightChar\": 6\n" +
                 "    },\n" +
                 "    {\n" +
                 "      \"offset\": 27,\n" +
-                "      \"left char\": 2,\n" +
-                "      \"right char\": 5\n" +
+                "      \"leftChar\": 2,\n" +
+                "      \"rightChar\": 5\n" +
                 "    },\n" +
                 "    {\n" +
                 "      \"offset\": 28,\n" +
-                "      \"left char\": 3,\n" +
-                "      \"right char\": 6\n" +
+                "      \"leftChar\": 3,\n" +
+                "      \"rightChar\": 6\n" +
                 "    }\n" +
                 "  ]\n" +
                 "}";

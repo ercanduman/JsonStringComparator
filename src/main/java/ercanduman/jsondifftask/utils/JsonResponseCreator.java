@@ -1,6 +1,12 @@
 package ercanduman.jsondifftask.utils;
 
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.boot.jackson.JsonComponent;
+
+import java.util.List;
 
 /**
  * Generates JSON messages for requests
@@ -14,8 +20,48 @@ import org.springframework.stereotype.Component;
  * }
  * ```
  */
-@Component
+@JsonComponent
+@JsonPropertyOrder({"error", "message", "differences"})
 public class JsonResponseCreator {
+    private boolean error;
+    private String message;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<JsonComparator.Difference> differences;
+
+    public boolean isError() {
+        return error;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public List<JsonComparator.Difference> getDifferences() {
+        return differences;
+    }
+
+    public void setDifferences(List<JsonComparator.Difference> differences) {
+        this.differences = differences;
+    }
+
+    @Override
+    public String toString() {
+        try {
+            return new ObjectMapper().writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     /**
      * Generates JSON message based on given parameters.
      *
@@ -26,11 +72,11 @@ public class JsonResponseCreator {
      */
     public String response(boolean isError, String message, String differences) {
         StringBuilder builder = new StringBuilder("{");
-        builder.append("\"error\": ").append(isError)
+        builder.append("\"error\":").append(isError)
                 .append(",\"message\":\"").append(message);
 
         if (differences != null) {
-            builder.append("\",").append("\"Differences\": ").append(differences);
+            builder.append("\",").append("\"differences\":").append(differences);
             builder.append("}");
         } else builder.append("\"}");
         return builder.toString();
